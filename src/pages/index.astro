@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Narratype | Practice">
+<BaseLayout title="Narratype | Home">
     <main class="min-h-screen">
         <header
             class="sticky top-0 z-10 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur"
@@ -10,7 +10,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
                 <a href="/" class="text-lg font-semibold">Narratype</a>
                 <div class="flex items-center gap-2 text-sm">
-                    <a class="btn-secondary" href="/texts">Texts</a>
+                    <a class="btn-secondary" href="/texts">Browse All</a>
                     <a class="btn-secondary" href="/progress">Progress</a>
                     <a class="btn-secondary" href="/settings">Settings</a>
                 </div>
@@ -18,47 +18,125 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </header>
 
         <section class="mx-auto max-w-6xl px-4 py-6">
-            <div class="mb-6 flex items-end justify-between">
-                <div>
-                    <h1 class="text-2xl font-semibold">Typing Practice</h1>
-                    <p class="text-neutral-400">
-                        Load a text and start a guided session or practice freely.
-                    </p>
-                </div>
-                <a href="/texts" class="btn-primary">Choose Text</a>
+            <!-- Hero Section -->
+            <div class="mb-8 text-center">
+                <h1 class="mb-2 text-3xl font-bold">Welcome back to Narratype</h1>
+                <p class="text-neutral-400">
+                    Continue where you left off or explore new texts
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                <div class="card p-4 lg:col-span-2">
-                    <div>
-                        <div id="typing-root"></div>
+            <!-- Quick Stats Bar -->
+            <div class="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="card p-4 text-center">
+                    <div class="text-2xl font-bold text-brand-500">47</div>
+                    <div class="text-sm text-neutral-400">Avg WPM</div>
+                </div>
+                <div class="card p-4 text-center">
+                    <div class="text-2xl font-bold text-green-500">94%</div>
+                    <div class="text-sm text-neutral-400">Accuracy</div>
+                </div>
+                <div class="card p-4 text-center">
+                    <div class="text-2xl font-bold text-amber-500">7</div>
+                    <div class="text-sm text-neutral-400">Day Streak</div>
+                </div>
+                <div class="card p-4 text-center">
+                    <div class="text-2xl font-bold text-purple-500">23</div>
+                    <div class="text-sm text-neutral-400">Texts Practiced</div>
+                </div>
+            </div>
+
+            <!-- Favorites Section -->
+            <div class="mb-8">
+                <div class="mb-4 flex items-center justify-between">
+                    <h2 class="flex items-center gap-2 text-xl font-semibold">
+                        <span class="text-amber-500">★</span> Favorites
+                    </h2>
+                    <a
+                        href="/texts"
+                        class="text-sm text-neutral-400 hover:text-neutral-200"
+                    >
+                        Manage favorites
+                    </a>
+                </div>
+                <div id="favorites-root"></div>
+            </div>
+
+            <!-- Recent Texts Section -->
+            <div class="mb-8">
+                <div class="mb-4 flex items-center justify-between">
+                    <h2 class="text-xl font-semibold">Recent Practice</h2>
+                    <div class="flex gap-2">
+                        <button
+                            id="sort-author"
+                            class="border-b-2 border-brand-500 text-sm text-neutral-400 hover:text-neutral-200"
+                        >
+                            By Author
+                        </button>
+                        <button
+                            id="sort-recent"
+                            class="text-sm text-neutral-400 hover:text-neutral-200"
+                        >
+                            By Recent
+                        </button>
+                        <button
+                            id="sort-progress"
+                            class="text-sm text-neutral-400 hover:text-neutral-200"
+                        >
+                            By Progress
+                        </button>
                     </div>
-                    <script type="module">
-                        import React from "react";
-                        import { createRoot } from "react-dom/client";
-                        import { TypingPractice } from "@/react/TypingPractice";
-                        const container = document.getElementById("typing-root");
-                        if (container)
-                            createRoot(container).render(
-                                React.createElement(TypingPractice),
-                            );
-                    </script>
                 </div>
-                <div class="card p-4">
-                    <h2 class="mb-2 text-lg font-semibold">Session Metrics</h2>
-                    <div id="metrics-root"></div>
-                    <script type="module">
-                        import React from "react";
-                        import { createRoot } from "react-dom/client";
-                        import { MetricsPanel } from "@/react/components/MetricsPanel";
-                        const container = document.getElementById("metrics-root");
-                        if (container)
-                            createRoot(container).render(
-                                React.createElement(MetricsPanel),
-                            );
-                    </script>
-                </div>
+                <div id="recent-texts-root"></div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="py-8 text-center">
+                <p class="mb-4 text-neutral-400">Ready to discover more?</p>
+                <a href="/texts" class="btn-primary px-6 py-3"> Browse Text Library > </a>
             </div>
         </section>
     </main>
+
+    <script type="module">
+        import React from "react";
+        import { createRoot } from "react-dom/client";
+        import { FavoritesBar } from "@/react/components/FavoritesBar";
+        import { RecentTextsGrid } from "@/react/components/RecentTextsGrid";
+
+        const favoritesContainer = document.getElementById("favorites-root");
+        if (favoritesContainer) {
+            createRoot(favoritesContainer).render(React.createElement(FavoritesBar));
+        }
+
+        const recentContainer = document.getElementById("recent-texts-root");
+        let recentRoot = null;
+        if (recentContainer) {
+            recentRoot = createRoot(recentContainer);
+            recentRoot.render(React.createElement(RecentTextsGrid, { sortBy: "author" }));
+        }
+
+        function updateSort(sortType, button) {
+            document.querySelectorAll('[id^="sort-"]').forEach((btn) => {
+                btn.classList.remove("border-b-2", "border-brand-500");
+            });
+            button.classList.add("border-b-2", "border-brand-500");
+
+            if (recentRoot) {
+                recentRoot.render(
+                    React.createElement(RecentTextsGrid, { sortBy: sortType }),
+                );
+            }
+        }
+
+        document.getElementById("sort-author")?.addEventListener("click", (e) => {
+            updateSort("author", e.currentTarget);
+        });
+        document.getElementById("sort-recent")?.addEventListener("click", (e) => {
+            updateSort("recent", e.currentTarget);
+        });
+        document.getElementById("sort-progress")?.addEventListener("click", (e) => {
+            updateSort("progress", e.currentTarget);
+        });
+    </script>
 </BaseLayout>
