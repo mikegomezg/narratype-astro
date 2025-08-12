@@ -31,7 +31,7 @@ function Get-ProjectRoot {
     }
 }
 
-function Ensure-Directory {
+function Initialize-Directory {
     param([Parameter(Mandatory)][string] $Path)
     if (-not (Test-Path $Path)) { New-Item -ItemType Directory -Path $Path | Out-Null }
 }
@@ -47,11 +47,11 @@ try {
     npm install --no-fund --no-audit | Out-Host
 
     # Ensure folders for local data
-    Ensure-Directory -Path (Join-Path $root 'texts')
-    Ensure-Directory -Path (Join-Path $root 'texts\custom')
-    Ensure-Directory -Path (Join-Path $root 'texts\technical')
-    Ensure-Directory -Path (Join-Path $root 'exercises\generated')
-    Ensure-Directory -Path (Join-Path $root 'database')
+    Initialize-Directory -Path (Join-Path $root 'texts')
+    Initialize-Directory -Path (Join-Path $root 'texts\custom')
+    Initialize-Directory -Path (Join-Path $root 'texts\technical')
+    Initialize-Directory -Path (Join-Path $root 'exercises\generated')
+    Initialize-Directory -Path (Join-Path $root 'database')
 
     # Optional sample text
     $sample = @(
