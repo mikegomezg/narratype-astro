@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    @apply bg-neutral-950 text-neutral-100 antialiased;
+}
+
+.card {
+    @apply rounded-xl border border-neutral-800 bg-neutral-900/50 shadow-sm;
+}
+
+.btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition;
+}
+
+.btn-primary {
+    @apply btn bg-brand-600 hover:bg-brand-700 text-white;
+}
+
+.btn-secondary {
+    @apply btn bg-neutral-800 hover:bg-neutral-700 text-neutral-100;
+}

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Narratype | Texts">
+    <main class="mx-auto min-h-screen max-w-6xl px-4 py-6">
+        <div class="mb-6 flex items-end justify-between">
+            <div>
+                <h1 class="text-2xl font-semibold">Texts</h1>
+                <p class="text-neutral-400">
+                    Manage local text files and import new ones.
+                </p>
+            </div>
+            <a href="/" class="btn-secondary">Back to Practice</a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div class="card p-4 lg:col-span-2">
+                <div id="text-library-root"></div>
+                <script type="module">
+                    import React from "react";
+                    import { createRoot } from "react-dom/client";
+                    import { TextLibrary } from "@/react/TextLibrary";
+                    const container = document.getElementById("text-library-root");
+                    if (container)
+                        createRoot(container).render(React.createElement(TextLibrary));
+                </script>
+            </div>
+            <div class="card p-4">
+                <div id="import-root"></div>
+                <script type="module">
+                    import React from "react";
+                    import { createRoot } from "react-dom/client";
+                    import { TextImport } from "@/react/TextImport";
+                    const container = document.getElementById("import-root");
+                    if (container)
+                        createRoot(container).render(React.createElement(TextImport));
+                </script>
+            </div>
+        </div>
+    </main>
+</BaseLayout>

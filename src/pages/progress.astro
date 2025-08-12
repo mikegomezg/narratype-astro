@@ -1,0 +1,29 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Narratype | Progress">
+    <main class="mx-auto min-h-screen max-w-6xl px-4 py-6">
+        <div class="mb-6 flex items-end justify-between">
+            <div>
+                <h1 class="text-2xl font-semibold">Progress</h1>
+                <p class="text-neutral-400">
+                    Your stats and trends from local practice sessions.
+                </p>
+            </div>
+            <a href="/" class="btn-secondary">Back to Practice</a>
+        </div>
+
+        <div class="card p-4">
+            <div id="progress-dashboard-root"></div>
+            <script type="module">
+                import React from "react";
+                import { createRoot } from "react-dom/client";
+                import { ProgressDashboard } from "@/react/ProgressDashboard";
+                const container = document.getElementById("progress-dashboard-root");
+                if (container)
+                    createRoot(container).render(React.createElement(ProgressDashboard));
+            </script>
+        </div>
+    </main>
+</BaseLayout>

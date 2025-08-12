@@ -1,0 +1,64 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Narratype | Practice">
+    <main class="min-h-screen">
+        <header
+            class="sticky top-0 z-10 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur"
+        >
+            <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+                <a href="/" class="text-lg font-semibold">Narratype</a>
+                <div class="flex items-center gap-2 text-sm">
+                    <a class="btn-secondary" href="/texts">Texts</a>
+                    <a class="btn-secondary" href="/progress">Progress</a>
+                    <a class="btn-secondary" href="/settings">Settings</a>
+                </div>
+            </nav>
+        </header>
+
+        <section class="mx-auto max-w-6xl px-4 py-6">
+            <div class="mb-6 flex items-end justify-between">
+                <div>
+                    <h1 class="text-2xl font-semibold">Typing Practice</h1>
+                    <p class="text-neutral-400">
+                        Load a text and start a guided session or practice freely.
+                    </p>
+                </div>
+                <a href="/texts" class="btn-primary">Choose Text</a>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div class="card p-4 lg:col-span-2">
+                    <div client:load>
+                        <div id="typing-root"></div>
+                    </div>
+                    <script type="module">
+                        import React from "react";
+                        import { createRoot } from "react-dom/client";
+                        import { TypingPractice } from "@/react/TypingPractice";
+                        const container = document.getElementById("typing-root");
+                        if (container)
+                            createRoot(container).render(
+                                React.createElement(TypingPractice),
+                            );
+                    </script>
+                </div>
+                <div class="card p-4">
+                    <h2 class="mb-2 text-lg font-semibold">Session Metrics</h2>
+                    <div id="metrics-root"></div>
+                    <script type="module">
+                        import React from "react";
+                        import { createRoot } from "react-dom/client";
+                        import { MetricsPanel } from "@/react/components/MetricsPanel";
+                        const container = document.getElementById("metrics-root");
+                        if (container)
+                            createRoot(container).render(
+                                React.createElement(MetricsPanel),
+                            );
+                    </script>
+                </div>
+            </div>
+        </section>
+    </main>
+</BaseLayout>
