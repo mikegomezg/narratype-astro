@@ -1,8 +1,27 @@
-import React from "react";
-import { sampleTexts } from "@/react/data/sampleTexts";
+import React, { useEffect, useState } from "react";
+
+type FavoriteItem = {
+    id: number | null;
+    title: string;
+    author?: string;
+    difficulty?: string;
+};
 
 export function FavoritesBar(): React.JSX.Element {
-    const favorites = sampleTexts.filter((text) => text.isFavorite);
+    const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await fetch('/api/texts?favorites=true');
+                const data = await res.json();
+                const items = (data.items || []).map((i: any) => ({ id: i.id, title: i.title, author: i.author, difficulty: i.difficulty }));
+                setFavorites(items);
+            } catch {
+                setFavorites([]);
+            }
+        })();
+    }, []);
 
     if (favorites.length === 0) {
         return (
@@ -18,8 +37,8 @@ export function FavoritesBar(): React.JSX.Element {
         <div className="flex gap-3 overflow-x-auto pb-2">
             {favorites.map((text) => (
                 <a
-                    key={text.id}
-                    href={`/practice?textId=${text.id}`}
+                    key={text.id ?? text.title}
+                    href={text.id ? `/practice?textId=${text.id}` : '/texts'}
                     className="card min-w-[200px] flex-shrink-0 p-3 transition-colors hover:border-amber-500/50"
                 >
                     <div className="mb-2 flex items-start justify-between">

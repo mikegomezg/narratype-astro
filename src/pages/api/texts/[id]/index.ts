@@ -3,6 +3,8 @@ import { unlink } from 'node:fs/promises';
 import { ensureDatabase } from '@/db/init';
 import { getDb } from '@/db/client';
 
+export const prerender = false;
+
 export const DELETE: APIRoute = async ({ params }) => {
   const id = params.id ?? '';
   const path = Buffer.from(id, 'base64').toString('utf-8');

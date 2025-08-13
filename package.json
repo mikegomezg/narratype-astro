@@ -10,7 +10,10 @@
         "dev": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "db:view": "node scripts/db-viewer.js",
+        "db:reset": "node scripts/reset-db.js",
+        "texts:generate": "node scripts/generate-samples.js"
     },
     "dependencies": {
         "@astrojs/react": "^4.0.0",

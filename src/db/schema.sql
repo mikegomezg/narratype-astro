@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS texts (
   category TEXT,
   word_count INTEGER,
   difficulty TEXT,
+  is_favorite BOOLEAN DEFAULT 0,
   last_practiced DATETIME,
   times_practiced INTEGER DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP

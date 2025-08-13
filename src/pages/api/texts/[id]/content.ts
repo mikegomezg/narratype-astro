@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import { readFile } from 'node:fs/promises';
 import { ensureDatabase } from '@/db/init';
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ params }) => {
   try {
     await ensureDatabase();

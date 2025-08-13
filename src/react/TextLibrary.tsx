@@ -11,6 +11,8 @@ type LibraryItem = {
     inDatabase?: boolean;
     lastPracticed?: string | null;
     timesPracticed?: number;
+    id?: number | null;
+    isFavorite?: boolean;
 };
 
 export function TextLibrary(): JSX.Element {
@@ -56,8 +58,21 @@ export function TextLibrary(): JSX.Element {
                             </div>
                             <div className="truncate text-sm text-neutral-400">{it.displayPath}</div>
                             <div className="text-xs text-neutral-500">{it.author || 'Unknown'} • {it.wordCount} words • {it.category || 'Uncategorized'} • {it.difficulty || 'Unrated'}</div>
+                            {it.timesPracticed ? <div className="text-xs text-green-500">Practiced {it.timesPracticed}x</div> : null}
                         </div>
                         <div className="flex shrink-0 items-center gap-2">
+                            <button
+                                className={`text-xl ${it.isFavorite ? 'text-amber-500' : 'text-neutral-600 hover:text-neutral-400'}`}
+                                disabled={!it.id}
+                                onClick={async () => {
+                                    if (!it.id) return;
+                                    await fetch(`/api/texts/${it.id}/favorite`, { method: 'POST' });
+                                    setItems((prev) => prev.map((x) => (x.filename === it.filename ? { ...x, isFavorite: !x.isFavorite } : x)));
+                                }}
+                                title={it.isFavorite ? 'Unfavorite' : 'Favorite'}
+                            >
+                                {it.isFavorite ? '★' : '☆'}
+                            </button>
                             <button className="btn-secondary" onClick={async () => {
                                 const resp = await fetch('/api/exercises/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourcePath: it.filename }) });
                                 const data = await resp.json();

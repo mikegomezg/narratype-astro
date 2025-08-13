@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { ensureDatabase } from "@/db/init";
+
+await ensureDatabase();
 ---
 
 <BaseLayout title="Narratype | Home">
@@ -29,19 +32,21 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             <!-- Quick Stats Bar -->
             <div class="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <div class="card p-4 text-center">
-                    <div class="text-2xl font-bold text-brand-500">47</div>
+                    <div id="stat-wpm" class="text-2xl font-bold text-brand-500">0</div>
                     <div class="text-sm text-neutral-400">Avg WPM</div>
                 </div>
                 <div class="card p-4 text-center">
-                    <div class="text-2xl font-bold text-green-500">94%</div>
+                    <div id="stat-acc" class="text-2xl font-bold text-green-500">0%</div>
                     <div class="text-sm text-neutral-400">Accuracy</div>
                 </div>
                 <div class="card p-4 text-center">
-                    <div class="text-2xl font-bold text-amber-500">7</div>
-                    <div class="text-sm text-neutral-400">Day Streak</div>
+                    <div id="stat-days" class="text-2xl font-bold text-amber-500">0</div>
+                    <div class="text-sm text-neutral-400">Days Practiced (30d)</div>
                 </div>
                 <div class="card p-4 text-center">
-                    <div class="text-2xl font-bold text-purple-500">23</div>
+                    <div id="stat-texts" class="text-2xl font-bold text-purple-500">
+                        0
+                    </div>
                     <div class="text-sm text-neutral-400">Texts Practiced</div>
                 </div>
             </div>
@@ -83,7 +88,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
                             id="sort-progress"
                             class="text-sm text-neutral-400 hover:text-neutral-200"
                         >
-                            By Progress
+                            By Title
                         </button>
                     </div>
                 </div>
@@ -113,6 +118,31 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         }
 
         onReady(() => {
+            (async () => {
+                try {
+                    const prog = await fetch("/api/progress");
+                    const pdata = await prog.json();
+                    const summary = pdata.summary || {};
+                    const wpm = Array.isArray(summary.averageWpm)
+                        ? summary.averageWpm.at(-1) || 0
+                        : 0;
+                    const acc = Array.isArray(summary.averageAccuracy)
+                        ? summary.averageAccuracy.at(-1) || 0
+                        : 0;
+                    const days = Array.isArray(summary.dates) ? summary.dates.length : 0;
+                    const stats = await fetch("/api/texts/stats");
+                    const tstats = await stats.json();
+                    const texts = Number(tstats.unique_texts || 0);
+                    const wEl = document.getElementById("stat-wpm");
+                    if (wEl) wEl.textContent = String(wpm);
+                    const aEl = document.getElementById("stat-acc");
+                    if (aEl) aEl.textContent = String(acc) + "%";
+                    const dEl = document.getElementById("stat-days");
+                    if (dEl) dEl.textContent = String(days);
+                    const tEl = document.getElementById("stat-texts");
+                    if (tEl) tEl.textContent = String(texts);
+                } catch {}
+            })();
             const favoritesContainer = document.getElementById("favorites-root");
             if (favoritesContainer) {
                 createRoot(favoritesContainer).render(React.createElement(FavoritesBar));
