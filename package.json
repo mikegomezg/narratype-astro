@@ -8,7 +8,8 @@
     },
     "scripts": {
         "dev": "astro dev",
-        "build": "astro build",
+        "build": "npm run copy:texts && astro build",
+        "copy:texts": "node scripts/copy-texts.js",
         "preview": "astro preview",
         "format": "prettier --write .",
         "db:view": "node scripts/db-viewer.js",
@@ -32,6 +33,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@astrojs/node": "^9.4.0",
         "@types/node": "^22.5.4",
         "@types/react": "^19.0.8",
         "@types/react-dom": "^19.0.2",

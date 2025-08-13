@@ -2,12 +2,16 @@ import type { APIRoute } from 'astro';
 import { scanTexts } from '@/lib/texts';
 import { getDb } from '@/db/client';
 import { ensureDatabase } from '@/db/init';
+import { getTextsRoot } from '@/lib/paths';
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
-  await ensureDatabase();
-  const [fsItems, db] = await Promise.all([scanTexts(), getDb()]);
+  try {
+    await ensureDatabase();
+    const root = getTextsRoot();
+    console.log('Texts root path:', root);
+    const [fsItems, db] = await Promise.all([scanTexts(), getDb()]);
 
   const favoritesOnly = url.searchParams.get('favorites') === 'true';
   const recentOnly = url.searchParams.get('recent') === 'true';
@@ -31,6 +35,13 @@ export const GET: APIRoute = async ({ url }) => {
     .sort((a, b) => new Date(b.lastPracticed as string).getTime() - new Date(a.lastPracticed as string).getTime());
 
   return new Response(JSON.stringify({ items }), { headers: { 'Content-Type': 'application/json' } });
+  } catch (err) {
+    console.error('Error in /api/texts:', err);
+    return new Response(
+      JSON.stringify({ error: String(err), textsRoot: getTextsRoot(), cwd: process.cwd() }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 };
 
 
