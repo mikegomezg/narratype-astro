@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "filename": "classics/typing_wisdom.txt",
+      "displayPath": "classics/typing_wisdom.txt",
+      "url": "/texts/classics/typing_wisdom.txt",
+      "title": "Timeless Typing Wisdom",
+      "author": "Anonymous Typist",
+      "difficulty": "Easy",
+      "category": "Classics",
+      "wordCount": 221
+    },
+    {
+      "filename": "exercises/home_row_practice.txt",
+      "displayPath": "exercises/home_row_practice.txt",
+      "url": "/texts/exercises/home_row_practice.txt",
+      "title": "Home Row Mastery",
+      "author": "Typing Coach",
+      "difficulty": "Easy",
+      "category": "Exercises",
+      "wordCount": 116
+    },
+    {
+      "filename": "exercises/number_practice.txt",
+      "displayPath": "exercises/number_practice.txt",
+      "url": "/texts/exercises/number_practice.txt",
+      "title": "Number Row Training",
+      "author": "Typing Coach",
+      "difficulty": "Medium",
+      "category": "Exercises",
+      "wordCount": 117
+    },
+    {
+      "filename": "productivity_guide.txt",
+      "displayPath": "productivity_guide.txt",
+      "url": "/texts/productivity_guide.txt",
+      "title": "Keyboard Productivity Techniques",
+      "author": "Efficiency Expert",
+      "difficulty": "Medium",
+      "category": "Articles",
+      "wordCount": 218
+    },
+    {
+      "filename": "programming_basics.txt",
+      "displayPath": "programming_basics.txt",
+      "url": "/texts/programming_basics.txt",
+      "title": "Programming Basics",
+      "author": "Narratype",
+      "difficulty": "Easy",
+      "category": "Technical",
+      "wordCount": 20
+    },
+    {
+      "filename": "technical/javascript_basics.txt",
+      "displayPath": "technical/javascript_basics.txt",
+      "url": "/texts/technical/javascript_basics.txt",
+      "title": "JavaScript Fundamentals",
+      "author": "Narratype Docs",
+      "difficulty": "Easy",
+      "category": "Technical",
+      "wordCount": 166
+    },
+    {
+      "filename": "technical/programming_basics.txt",
+      "displayPath": "technical/programming_basics.txt",
+      "url": "/texts/technical/programming_basics.txt",
+      "title": "Programming Basics",
+      "author": "Narratype",
+      "difficulty": "Easy",
+      "category": "Technical",
+      "wordCount": 20
+    },
+    {
+      "filename": "technical/python_basics.txt",
+      "displayPath": "technical/python_basics.txt",
+      "url": "/texts/technical/python_basics.txt",
+      "title": "Python Programming Essentials",
+      "author": "Narratype Docs",
+      "difficulty": "Easy",
+      "category": "Technical",
+      "wordCount": 149
+    },
+    {
+      "filename": "typing_tips.txt",
+      "displayPath": "typing_tips.txt",
+      "url": "/texts/typing_tips.txt",
+      "title": "Effective Typing Practice Strategies",
+      "author": "Narratype Guide",
+      "difficulty": "Medium",
+      "category": "Articles",
+      "wordCount": 221
+    }
+  ]
+}

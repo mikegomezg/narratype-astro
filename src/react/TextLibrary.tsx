@@ -21,9 +21,23 @@ export function TextLibrary(): JSX.Element {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch('/api/texts');
-            const data = await res.json();
-            setItems(data.items ?? []);
+            try {
+                const useApi = new URLSearchParams(window.location.search).get('source') === 'api';
+                const url = useApi ? '/api/texts' : '/texts-index.json';
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`Failed to load ${url}: ${res.status}`);
+                const data = await res.json();
+                // Support both shapes: { items: [...] } and raw array under .items
+                const items = Array.isArray(data?.items) ? data.items : [];
+                setItems(items);
+                if (process.env.NODE_ENV !== 'production') {
+                    // Minimal diagnostics in dev
+                    console.log(`Loaded ${items.length} texts from`, url);
+                }
+            } catch (err) {
+                console.error('Failed to load texts:', err);
+                setItems([]);
+            }
         })();
     }, []);
 

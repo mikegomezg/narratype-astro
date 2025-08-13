@@ -16,7 +16,16 @@ export const POST: APIRoute = async ({ request }) => {
   } catch {}
 
   let sourcePath: string | null = null;
-  if (body?.sourcePath) sourcePath = body.sourcePath;
+  if (body?.sourcePath) {
+    // Accept either an absolute path (legacy) or a relative displayPath from manifest
+    const sp = String(body.sourcePath);
+    if (sp.startsWith('/') || sp.match(/^[A-Za-z]:\\/)) {
+      sourcePath = sp;
+    } else {
+      const textsRoot = getTextsRoot();
+      sourcePath = join(textsRoot, sp.replaceAll('/', '\\'));
+    }
+  }
 
   if (!sourcePath && body?.fallback) {
     // Create a minimal sample text if none exists

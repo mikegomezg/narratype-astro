@@ -20,6 +20,19 @@ await ensureDatabase();
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <div class="card p-4 lg:col-span-2">
                 <div id="text-library-root"></div>
+                <script>
+                    // Gentle hint if no items load
+                    fetch("/texts-index.json")
+                        .then((r) => (r.ok ? r.json() : { items: [] }))
+                        .then((d) => {
+                            if (!d || !Array.isArray(d.items) || d.items.length === 0) {
+                                console.warn(
+                                    "No texts found in texts-index.json. You can add .txt files under the texts/ folder or click Save in the Import panel.",
+                                );
+                            }
+                        })
+                        .catch(() => {});
+                </script>
                 <script type="module">
                     import React from "react";
                     import { createRoot } from "react-dom/client";
