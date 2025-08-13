@@ -98,45 +98,57 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </section>
     </main>
 
-    <script type="module">
+    <script type="module" is:inline>
         import React from "react";
         import { createRoot } from "react-dom/client";
         import { FavoritesBar } from "@/react/components/FavoritesBar";
         import { RecentTextsGrid } from "@/react/components/RecentTextsGrid";
 
-        const favoritesContainer = document.getElementById("favorites-root");
-        if (favoritesContainer) {
-            createRoot(favoritesContainer).render(React.createElement(FavoritesBar));
-        }
-
-        const recentContainer = document.getElementById("recent-texts-root");
-        let recentRoot = null;
-        if (recentContainer) {
-            recentRoot = createRoot(recentContainer);
-            recentRoot.render(React.createElement(RecentTextsGrid, { sortBy: "author" }));
-        }
-
-        function updateSort(sortType, button) {
-            document.querySelectorAll('[id^="sort-"]').forEach((btn) => {
-                btn.classList.remove("border-b-2", "border-brand-500");
-            });
-            button.classList.add("border-b-2", "border-brand-500");
-
-            if (recentRoot) {
-                recentRoot.render(
-                    React.createElement(RecentTextsGrid, { sortBy: sortType }),
-                );
+        function onReady(fn) {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", fn, { once: true });
+            } else {
+                fn();
             }
         }
 
-        document.getElementById("sort-author")?.addEventListener("click", (e) => {
-            updateSort("author", e.currentTarget);
-        });
-        document.getElementById("sort-recent")?.addEventListener("click", (e) => {
-            updateSort("recent", e.currentTarget);
-        });
-        document.getElementById("sort-progress")?.addEventListener("click", (e) => {
-            updateSort("progress", e.currentTarget);
+        onReady(() => {
+            const favoritesContainer = document.getElementById("favorites-root");
+            if (favoritesContainer) {
+                createRoot(favoritesContainer).render(React.createElement(FavoritesBar));
+            }
+
+            const recentContainer = document.getElementById("recent-texts-root");
+            let recentRoot = null;
+            if (recentContainer) {
+                recentRoot = createRoot(recentContainer);
+                recentRoot.render(
+                    React.createElement(RecentTextsGrid, { sortBy: "author" }),
+                );
+            }
+
+            function updateSort(sortType, button) {
+                document.querySelectorAll('[id^="sort-"]').forEach((btn) => {
+                    btn.classList.remove("border-b-2", "border-brand-500");
+                });
+                button.classList.add("border-b-2", "border-brand-500");
+
+                if (recentRoot) {
+                    recentRoot.render(
+                        React.createElement(RecentTextsGrid, { sortBy: sortType }),
+                    );
+                }
+            }
+
+            document.getElementById("sort-author")?.addEventListener("click", (e) => {
+                updateSort("author", e.currentTarget);
+            });
+            document.getElementById("sort-recent")?.addEventListener("click", (e) => {
+                updateSort("recent", e.currentTarget);
+            });
+            document.getElementById("sort-progress")?.addEventListener("click", (e) => {
+                updateSort("progress", e.currentTarget);
+            });
         });
     </script>
 </BaseLayout>
